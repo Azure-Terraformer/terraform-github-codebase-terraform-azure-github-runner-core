@@ -16,7 +16,7 @@ DESCRIPTION
 }
 variable "path" {
   type        = string
-  default     = "src"
+  default     = "src/terraform"
   description = <<DESCRIPTION
 The file system path within the repository where the Terraform configuration files and workflows will be stored.
 

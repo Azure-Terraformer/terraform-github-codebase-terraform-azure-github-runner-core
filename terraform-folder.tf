@@ -16,7 +16,7 @@ resource "github_repository_file" "terraform_folder" {
 
   repository          = var.repository
   branch              = var.branch
-  file                = "${var.path}/terraform/${local.root_folder_files[count.index]}"
+  file                = "src/terraform/${local.root_folder_files[count.index]}"
   content             = file("${path.module}/files/src/terraform/${local.root_folder_files[count.index]}.t4")
   commit_message      = "Managed by Terraform"
   commit_author       = var.commit_user.name
@@ -29,7 +29,7 @@ resource "github_repository_file" "terraform_tfvars" {
 
   repository = var.repository
   branch     = var.branch
-  file       = "${var.path}/terraform/terraform.tfvars"
+  file       = "src/terraform/terraform.tfvars"
   content = templatefile("${path.module}/files/src/terraform/terraform.tfvars.t4",
     {
       primary_location   = var.primary_location
