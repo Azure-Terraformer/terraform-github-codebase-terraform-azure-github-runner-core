@@ -20,5 +20,11 @@ resource "azurerm_key_vault_secret" "github_token" {
   value        = var.github_token
   key_vault_id = azurerm_key_vault.main.id
 
+  lifecycle {
+    ignore_changes = [
+      value
+    ]
+  }
+
   depends_on = [azurerm_role_assignment.terraform_keyvault_access]
 }
