@@ -17,7 +17,11 @@ variable "container_name" {
   type    = string
   default = "github-runner"
 }
+variable "additional_regions" {
+  type    = list(string)
+  default = []
+}
 variable "additional_tags" {
-  type = map(string)
+  type    = map(string)
   default = {}
 }
