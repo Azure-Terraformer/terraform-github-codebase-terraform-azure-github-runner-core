@@ -1,4 +1,4 @@
 primary_location   = "${primary_location}"
 address_space      = "${address_space}"
-additional_regions = {}
+additional_regions = []
 github_token       = "foo"
