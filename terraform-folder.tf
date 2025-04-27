@@ -6,6 +6,7 @@ locals {
     "main.tf",
     "network.tf",
     "observability.tf",
+    "outputs.tf",
     "variables.tf",
     "versions.tf"
   ]
