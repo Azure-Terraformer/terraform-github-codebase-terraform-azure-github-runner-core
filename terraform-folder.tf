@@ -5,6 +5,7 @@ locals {
     "keyvault.tf",
     "main.tf",
     "network.tf",
+    "observability.tf",
     "variables.tf",
     "versions.tf"
   ]
