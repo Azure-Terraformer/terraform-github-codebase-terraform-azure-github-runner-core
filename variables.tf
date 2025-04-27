@@ -48,6 +48,6 @@ The primary Azure region where the resources will be deployed.
 Selecting an appropriate primary location is crucial for optimizing latency, compliance, and availability of your Azure resources.
 DESCRIPTION
 }
-variable "base_address_space" {
+variable "address_space" {
   type = string
 }

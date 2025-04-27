@@ -33,8 +33,8 @@ resource "github_repository_file" "terraform_tfvars" {
   file       = "src/terraform/terraform.tfvars"
   content = templatefile("${path.module}/files/src/terraform/terraform.tfvars.t4",
     {
-      primary_location   = var.primary_location
-      base_address_space = var.base_address_space
+      primary_location = var.primary_location
+      address_space    = var.address_space
     }
   )
   commit_message      = "Managed by Terraform"
