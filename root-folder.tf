@@ -2,8 +2,8 @@
 locals {
   files = [
     ".github/workflows/atat-manual-docker-build.yaml",
-    "src/docker/Dockerfile",
-    "src/docker/entrypoint.sh"
+    "src/docker/github-actions-runner/Dockerfile",
+    "src/docker/github-actions-runner/entrypoint.sh"
   ]
 }
 
