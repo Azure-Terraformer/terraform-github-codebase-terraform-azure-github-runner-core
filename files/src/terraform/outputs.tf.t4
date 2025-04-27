@@ -7,3 +7,6 @@ output "container_registry_endpoint" {
 output "container_registry_name" {
   value = azurerm_container_registry.main.name
 }
+output "keyvault_name" {
+  value = azurerm_key_vault.main.name
+}

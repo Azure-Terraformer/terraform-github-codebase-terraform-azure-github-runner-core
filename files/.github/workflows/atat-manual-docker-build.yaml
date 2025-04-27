@@ -92,6 +92,8 @@ jobs:
     outputs:
       container_registry_endpoint: ${{ steps.apply.outputs.container_registry_endpoint }}
       resource_group_name: ${{ steps.apply.outputs.resource_group_name }}
+      keyvault_name: ${{ steps.apply.outputs.keyvault_name }}
+      keyvault_github_pat_secret_name: ${{ steps.apply.outputs.keyvault_github_pat_secret_name }}
 
     environment:
       name: ${{ github.event.inputs.environment }}
@@ -146,9 +148,13 @@ jobs:
           echo $resource_group_name
           echo "resource_group_name=$resource_group_name" >> "$GITHUB_OUTPUT"
 
-          function_name=$(terraform output -raw container_registry_endpoint)
+          container_registry_endpoint=$(terraform output -raw container_registry_endpoint)
           echo $container_registry_endpoint
           echo "container_registry_endpoint=$container_registry_endpoint" >> "$GITHUB_OUTPUT"
+
+          keyvault_name=$(terraform output -raw keyvault_name)
+          echo $keyvault_name
+          echo "keyvault_name=$keyvault_name" >> "$GITHUB_OUTPUT"
 
   docker-build:
     needs: [terraform-apply]
@@ -172,11 +178,17 @@ jobs:
           tenant-id: ${{ vars.ARM_TENANT_ID }}
           subscription-id: ${{ vars.ARM_SUBSCRIPTION_ID }}
 
+      - uses: Azure/get-keyvault-secrets@v1
+        with:
+          keyvault: ${{ steps.terraform-apply.outputs.keyvault_name }}
+          secrets: "github-token"
+        id: too-many-secrets
+
       - name: Build Docker Image
         working-directory: src/docker/github-actions-runner
         env:
-          GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
-          CONTAINER_REGISTRY_NAME: :${{ steps.terraform-apply.outputs.container_registry_endpoint }}
+          GITHUB_PAT: ${{ steps.too-many-secrets.outputs.github-token }}
+          CONTAINER_REGISTRY_NAME: ${{ steps.terraform-apply.outputs.container_registry_endpoint }}
           CONTAINER_IMAGE_NAME: github-runner:${{ steps.image-version.outputs.version }}
         run: |
           az acr build \
