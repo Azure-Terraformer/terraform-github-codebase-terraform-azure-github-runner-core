@@ -1,5 +1,3 @@
 primary_location   = "${primary_location}"
 base_address_space = "${base_address_space}"
-vpn_address_space  = "${vpn_address_space}"
-dns_address_space  = "${dns_address_space}"
 additional_regions = {}
