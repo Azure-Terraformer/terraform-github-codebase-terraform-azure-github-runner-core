@@ -1,0 +1,43 @@
+name: AT-AT-Manual-Docker-Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to run against"
+        type: environment
+        required: true
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  docker-build:
+    runs-on: ubuntu-latest
+
+    environment:
+      name: ${{ github.event.inputs.environment }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Az CLI login"
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.TERRAFORM_ARM_CLIENT_ID }}
+          tenant-id: ${{ vars.ARM_TENANT_ID }}
+          subscription-id: ${{ vars.ARM_SUBSCRIPTION_ID }}
+
+      - name: Build Docker Image
+        working-directory: ${{ vars.TERRAFORM_WORKING_DIRECTORY }}
+        env:
+          GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
+          CONTAINER_REGISTRY_NAME: ${{ vars.ACR_NAME }}
+          CONTAINER_IMAGE_NAME: ${{ vars.IMAGE_NAME }}
+        run: |
+          az acr build \
+            --registry "$CONTAINER_REGISTRY_NAME" \
+            --image "$CONTAINER_IMAGE_NAME" \
+            --file "Dockerfile.github" \
+            "https://github.com/Azure-Samples/container-apps-ci-cd-runner-tutorial.git"
