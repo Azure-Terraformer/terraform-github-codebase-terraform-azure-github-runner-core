@@ -4,7 +4,7 @@ variable "application_name" {
 variable "environment_name" {
   type = string
 }
-variable "location" {
+variable "primary_location" {
   type = string
 }
 variable "github_token" {
