@@ -1,10 +1,11 @@
 locals {
   additional_region_map = { for idx, region in var.additional_regions : idx => region }
+  container_registry_name = replace("cr${var.application_name}${var.environment_name}", "-", "")
 }
 
 resource "azurerm_container_registry" "main" {
 
-  name                          = "cr${var.application_name}${var.environment_name}"
+  name                          = local.container_registry_name
   resource_group_name           = azurerm_resource_group.main.name
   location                      = azurerm_resource_group.main.location
   sku                           = "Premium"
