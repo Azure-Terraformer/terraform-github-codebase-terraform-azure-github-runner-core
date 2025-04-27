@@ -15,4 +15,5 @@ provider "azurerm" {
       prevent_deletion_if_contains_resources = false
     }
   }
+  resource_providers_to_register = ["Microsoft.App"]
 }
